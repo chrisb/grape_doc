@@ -6,6 +6,7 @@ require 'grape_doc/api_parameter'
 require 'grape_doc/api_resource'
 require 'grape_doc/doc_generator'
 require 'grape_doc/formatters/markdown_formatter'
+require 'grape_doc/formatters/github_markdown_formatter'
 require 'trollop'
 
 #begin
@@ -27,4 +28,3 @@ module GrapeDoc
     generator.generate
   end
 end
- 
