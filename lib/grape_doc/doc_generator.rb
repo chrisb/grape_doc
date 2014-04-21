@@ -1,11 +1,13 @@
-module GrapeDoc 
-  class DOCGenerator 
-    attr_accessor :resources, 
-                  :formatter, 
-                  :single_file
-    def initialize(resource_path)
+module GrapeDoc
+  class DOCGenerator
+    attr_accessor :resources,
+                  :formatter,
+                  :single_file,
+                  :formatter_class
+    def initialize(resource_path,formatter_class)
       begin
         require resource_path
+        self.formatter_class = formatter_class
         self.load
       rescue LoadError => ex
         puts "#{ex}"
@@ -13,7 +15,14 @@ module GrapeDoc
     end
 
     def init_formatter
-      return GrapeDoc::MarkdownFormatter.new if self.formatter.nil?
+      if self.formatter.nil?
+        case formatter_class
+        when 'github'
+          GrapeDoc::GithubMarkdownFormatter.new
+        else
+          GrapeDoc::MarkdownFormatter.new
+        end
+      end
     end
 
     def load
@@ -24,7 +33,7 @@ module GrapeDoc
         else
           resource
         end
-      end.compact.sort_by{ |res| res.resource_name }
+      end.compact.sort_by(&:resource_name)
     end
 
     def generate
@@ -38,4 +47,3 @@ module GrapeDoc
     end
   end
 end
-
