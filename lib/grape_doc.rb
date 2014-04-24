@@ -22,7 +22,7 @@ module GrapeDoc
           :type => :string,
           :default => File.expand_path(Dir.pwd + "/config/environment")
 
-      opt :formatter, "Formatter", type: :string, default: 'markdown'
+      opt :formatter, "Formatter", type: :string, default: 'github'
     end
     generator = DOCGenerator.new opts[:path], opts[:formatter]
     generator.generate
